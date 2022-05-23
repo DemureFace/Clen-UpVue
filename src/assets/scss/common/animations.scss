@@ -1,0 +1,10 @@
+.show-from-left-enter-active,
+.show-from-left-leave-active {
+  transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.show-from-left-enter,
+.show-from-left-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
