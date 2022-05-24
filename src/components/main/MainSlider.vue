@@ -205,11 +205,13 @@ export default {
   },
 
   watch: {
-    finished(newValue) {
-      if (newValue) {
+    finished(newValue, oldValue) {
+      if (newValue === oldValue) {
+        return;
+      } else if (newValue) {
         this.animateMenu();
       } else {
-        this.animateMenu().reverse();
+        this.animateMenu().reverse(0);
       }
     },
   },
@@ -233,7 +235,7 @@ export default {
           opacity: 1,
           x: "0",
           scale: 1,
-          duration: 2,
+          duration: 1,
           ease: "power3.out",
           onComplete: () => this.showPins(),
           onStart: () => this.hidePins(),
@@ -275,14 +277,13 @@ export default {
       this.finished = finished;
     },
     animateMenu() {
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({ duration: 0.5 });
 
       tl.fromTo(
         this.$refs.menu,
         { x: "-100%" },
         {
           x: 0,
-          duration: 1,
         }
       );
       return tl;

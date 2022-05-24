@@ -41,24 +41,27 @@ export default {
           start: "top center",
           scrub: true,
           toggleActions: "play none none reverse",
+          onUpdate: (self) => this.emitFinished(self),
         },
         width: "74vw",
         height: "100vh",
         x: imgPos,
         y: window.innerHeight + 150,
         duration: 1,
-
-        onComplete: () =>
-          this.emitter.emit("finished", {
-            finished: true,
-          }),
-        onStart: () =>
-          this.emitter.emit("finished", {
-            finished: false,
-          }),
       });
 
       return tl;
+    },
+    emitFinished(self) {
+      if (self.direction === 1 && self.progress === 1) {
+        this.emitter.emit("finished", {
+          finished: true,
+        });
+      } else if (self.direction === -1 && self.progress < 1) {
+        this.emitter.emit("finished", {
+          finished: false,
+        });
+      }
     },
   },
 };
